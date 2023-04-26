@@ -880,7 +880,7 @@ void setInfoOdroid(char *hardware, void *vinfo)
         info->manufacturer = "Hardkernel";
         info->processor = "EXY5422";
     }
-    else if (strcmp(hardware, "ODROID-N2") == 0)
+    else if ((strcmp(hardware, "ODROID-N2") == 0) || (strcmp(hardware, "ODROID-N2Plus") == 0))
     {
         piModel = PI_MODEL_ODROIDN2;
         info->type = "ODROID-N2";

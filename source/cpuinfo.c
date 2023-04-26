@@ -61,13 +61,26 @@ int get_rpi_info(rpi_info *info)
    }
    fclose(fp);
 
+   if (!found) {
+      // Newer versions do not have all information in /proc/cpuinfo,
+      // see https://forums.balena.io/t/rpi4-proc-cpuinfo-missing-hardware-and-model-name/29080/7
+      if ((fp = fopen("/proc/device-tree/model", "r")) == NULL)
+        return -1;
+      fgets(buffer, sizeof(buffer), fp);
+      printf("devicetree content: %s\n", buffer);
+      if (strstr(buffer, "Hardkernel")) {
+        sscanf(buffer, "Hardkernel %s", hardware);
+        odroid_found = found = 1;
+        setInfoOdroid(hardware, (void *)info);
+      }
+      else
+        return -1;
+   }
+
     if (odroid_found) {
         strcpy(info->revision, revision);
         return 0;
     }
-
-   if (!found)
-      return -1;
 
    if ((len = strlen(revision)) == 0)
       return -1;
