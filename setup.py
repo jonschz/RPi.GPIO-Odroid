@@ -32,15 +32,22 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: Home Automation',
                'Topic :: System :: Hardware']
 
-setup(name             = 'RPi.GPIO',
-      version          = '0.6.3.post1',
-      author           = 'Ben Croston',
-      author_email     = 'ben@croston.org',
-      description      = 'A module to control Raspberry Pi and ODROID GPIO channels',
-      long_description = open('README.txt').read() + open('CHANGELOG.txt').read(),
-      license          = 'LGPL v3.0',
-      keywords         = 'Raspberry Pi GPIO',
-      url              = 'https://github.com/jfath/RPi.GPIO-Odroid',
-      classifiers      = classifiers,
-      packages         = ['RPi','RPi.GPIO'],
-      ext_modules      = [Extension('RPi._GPIO', ['source/py_gpio.c', 'source/c_gpio.c', 'source/cpuinfo.c', 'source/event_gpio.c', 'source/soft_pwm.c', 'source/py_pwm.c', 'source/common.c', 'source/constants.c', 'source/odroid.c'])])
+setup(
+  name             = 'RPi.GPIO',
+  version          = '0.6.3.post1',
+  author           = 'Ben Croston',
+  author_email     = 'ben@croston.org',
+  description      = 'A module to control Raspberry Pi and ODROID GPIO channels',
+  long_description = open('README.txt').read() + open('CHANGELOG.txt').read(),
+  license          = 'LGPL v3.0',
+  keywords         = 'Raspberry Pi GPIO',
+  url              = 'https://github.com/jfath/RPi.GPIO-Odroid',
+  classifiers      = classifiers,
+  packages         = ['RPi','RPi.GPIO'],
+  ext_modules      = [
+    Extension('RPi._GPIO',
+      sources=['source/py_gpio.c', 'source/c_gpio.c', 'source/cpuinfo.c', 'source/event_gpio.c', 'source/soft_pwm.c', 'source/py_pwm.c', 'source/common.c', 'source/constants.c', 'source/odroid.c'],
+      extra_compile_args=['-fcommon'],
+    )
+  ]
+)
